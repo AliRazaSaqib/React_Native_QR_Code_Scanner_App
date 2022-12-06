@@ -67,7 +67,7 @@ export default function App() {
       <View style={styles.barcodebox}>
         <BarCodeScanner
           onBarCodeScanned={scanned ? undefined : handleBarCodeScanned}
-          style={{ height: 400, width: 400 }}
+          style={{ height: 450, width: 400 }}
         />
       </View>
       <ScrollView style={{ height: 40 }}>
@@ -104,9 +104,12 @@ const styles = StyleSheet.create({
     overflow: "visible",
   },
   barcodebox: {
+    marginTop: 24,
     alignItems: "center",
     justifyContent: "center",
-    height: 280,
+    height: 250,
+    width: 300,
+    borderRadius: 30,
     overflow: "hidden",
     backgroundColor: "#F4717F",
   },
