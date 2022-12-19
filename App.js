@@ -1,10 +1,23 @@
 import React, { useState, useEffect } from "react";
-import { Text, View, StyleSheet, Button, ScrollView } from "react-native";
+import {
+  Text,
+  View,
+  StyleSheet,
+  Button,
+  ScrollView,
+  TextInput,
+  Image,
+} from "react-native";
 import { BarCodeScanner } from "expo-barcode-scanner";
 
 export default function App() {
   const [hasPermission, setHasPermission] = useState(null);
   const [scanned, setScanned] = useState(false);
+  const [textField, onChangeFieldText] = React.useState();
+  const [passwordField, onChangePasswordField] = React.useState();
+  const [error, setError] = React.useState();
+  const [loginScreen, setLoginScreen] = useState(true);
+
   const [text, setText] = useState(
     "Not yet scanned please scan first to see the results!"
   );
@@ -37,6 +50,20 @@ export default function App() {
     setBatch("BSBI batch 23");
   };
 
+  // validate user enter valid information or not...
+  const handleLogin = () => {
+    if (textField?.length < 6 && passwordField?.length < 6) {
+      setError("Enter valid email and password");
+    }
+    if (
+      textField === "aroojfatima@gmail.com" &&
+      passwordField === "aroojfatima786"
+    ) {
+      setLoginScreen(false);
+      setError("");
+    }
+  };
+
   // Check permissions and return the screens
   if (hasPermission === null) {
     return (
@@ -62,6 +89,41 @@ export default function App() {
   }
 
   // Return the View
+  if (loginScreen) {
+    return (
+      <View style={styles.container}>
+        <Image
+          source={require("./assets/loginIcon.jpg")}
+          style={{ height: 120, width: 120 }}
+        />
+        <Text style={styles.loginText}>Login</Text>
+
+        <View style={styles.inputField}>
+          <TextInput
+            style={styles.input}
+            onChangeText={onChangeFieldText}
+            value={textField}
+            placeholder="Email"
+          />
+          <TextInput
+            style={styles.input}
+            onChangeText={onChangePasswordField}
+            value={passwordField}
+            placeholder="Password"
+          />
+        </View>
+        <View style={[{ width: "80%", margin: 10 }]}>
+          <Button
+            title="Login"
+            color="#F4717F"
+            style={{ borderRadius: 6 }}
+            onPress={handleLogin}
+          />
+        </View>
+        {error?.length ? <Text style={{ color: "red" }}>{error}</Text> : ""}
+      </View>
+    );
+  }
   return (
     <View style={styles.container}>
       <View style={styles.barcodebox}>
@@ -112,5 +174,27 @@ const styles = StyleSheet.create({
     borderRadius: 30,
     overflow: "hidden",
     backgroundColor: "#F4717F",
+  },
+
+  // for login form
+
+  input: {
+    height: 40,
+    margin: 12,
+    borderWidth: 1,
+    padding: 10,
+    borderColor: "#F4717F",
+    borderRadius: 6,
+  },
+
+  inputField: {
+    maxWidth: "86%",
+    width: "100%",
+    marginTop: 40,
+  },
+
+  loginText: {
+    fontSize: 42,
+    fontWeight: "bold",
   },
 });
