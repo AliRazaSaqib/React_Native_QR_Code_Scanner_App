@@ -121,6 +121,21 @@ export default function App() {
           />
         </View>
         {error?.length ? <Text style={{ color: "red" }}>{error}</Text> : ""}
+
+        <View
+          style={[
+            {
+              width: "80%",
+              marginLeft: -100,
+              marginTop: 20,
+            },
+          ]}
+        >
+          <Image
+            source={require("./assets/comsats.jpg")}
+            style={{ height: 200, resizeMode: "cover" }}
+          />
+        </View>
       </View>
     );
   }
